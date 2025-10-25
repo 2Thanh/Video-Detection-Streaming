@@ -127,8 +127,7 @@ python Office/client.py
 ---
 
 ## 🎥 Demo
-
-<img src="source/demo.gif" width="640" alt="YOLOv8 Detection Demo">
+![Output](source/demo.gif)
 ---
 
 ## 📄 License
