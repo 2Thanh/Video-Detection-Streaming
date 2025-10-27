@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 import cv2
 import numpy as np
-from utils.tools import YoloInfer
+from utils.server_tools import YoloInfer
 from typing import List
 import asyncio
 
