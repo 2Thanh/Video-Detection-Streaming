@@ -38,66 +38,6 @@ class YoloInfer:
         output_bgr = self.draw_box(bgr_image.copy(), boxes, labels, scores)
         return cv2.cvtColor(output_bgr, cv2.COLOR_BGR2RGB), boxes, labels, scores
 
-    def inference_batch(self, images: List[np.ndarray], conf_threshold: float = 0.5):
-        """
-        Batch inference for multiple images - uses GPU batch processing
-        
-        Args:
-            images: List of images in RGB format
-            conf_threshold: Confidence threshold
-            
-        Returns:
-            List of tuples (annotated_image, boxes, labels, scores)
-        """
-        # Convert all images to BGR
-        bgr_images = [cv2.cvtColor(img, cv2.COLOR_RGB2BGR) for img in images]
-        
-        # TRUE BATCH INFERENCE - Single GPU call for all images
-        results = self.model(bgr_images, conf=conf_threshold)
-        
-        # Process results for each image
-        batch_results = []
-        for idx, result in enumerate(results):
-            boxes = result.boxes.xyxy.cpu().numpy()
-            labels = result.boxes.cls.cpu().numpy()
-            scores = result.boxes.conf.cpu().numpy()
-            
-            # Draw boxes on the image
-            output_bgr = self.draw_box(bgr_images[idx].copy(), boxes, labels, scores)
-            output_rgb = cv2.cvtColor(output_bgr, cv2.COLOR_BGR2RGB)
-            
-            batch_results.append((output_rgb, boxes, labels, scores))
-        
-        return batch_results
-
-    def inference_batch_raw(self, images: List[np.ndarray], conf_threshold: float = 0.5):
-        """
-        Batch inference returning only detection data (no drawing)
-        Faster when you don't need annotated images
-        
-        Args:
-            images: List of images in RGB format
-            conf_threshold: Confidence threshold
-            
-        Returns:
-            List of tuples (boxes, labels, scores)
-        """
-        # Convert all images to BGR
-        bgr_images = [cv2.cvtColor(img, cv2.COLOR_RGB2BGR) for img in images]
-        
-        # Batch inference
-        results = self.model(bgr_images, conf=conf_threshold)
-        
-        # Extract detection data only
-        batch_results = []
-        for result in results:
-            boxes = result.boxes.xyxy.cpu().numpy()
-            labels = result.boxes.cls.cpu().numpy()
-            scores = result.boxes.conf.cpu().numpy()
-            batch_results.append((boxes, labels, scores))
-        
-        return batch_results
-
     def inference_batch_dict(self, images: List[np.ndarray], conf_threshold: float = 0.5):
         """
         Batch inference returning structured detection data
