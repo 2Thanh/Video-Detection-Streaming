@@ -27,7 +27,7 @@ The system uses a **threaded queue-based architecture** for smooth, non-blocking
 Install dependencies:
 
 ```bash
-pip install opencv-python ultralytics fastapi uvicorn
+pip install opencv-python ultralytics fastapi uvicorn fastrtc
 ```
 
 ---
@@ -39,7 +39,7 @@ pip install opencv-python ultralytics fastapi uvicorn
 1. **Install dependencies:**
 
 ```bash
-pip install ultralytics fastapi uvicorn
+pip install ultralytics fastapi uvicorn fastrtc
 ```
 
 2. **Install ngrok for public access:**
